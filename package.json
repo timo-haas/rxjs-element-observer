@@ -1,0 +1,22 @@
+{
+  "name": "rxjs-element-observer",
+  "version": "1.0.0",
+  "description": "",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/public_api",
+  "types": "dist/public_api.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "rxjs": "^6.6.0"
+  },
+  "author": "Timo Haas",
+  "license": "MIT",
+  "devDependencies": {
+    "rxjs": "^6.6.3",
+    "typescript": "^4.0.3"
+  }
+}
