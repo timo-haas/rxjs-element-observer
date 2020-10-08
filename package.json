@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "files": [
-    "dist"
+    "dist/**/*"
   ],
   "main": "dist/public_api",
   "types": "dist/public_api.d.ts",

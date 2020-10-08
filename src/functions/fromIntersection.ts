@@ -1,21 +1,33 @@
 import { EMPTY, Observable } from "rxjs";
 
-export function fromIntersection(
-  domElement: Element,
+export type IntersectionObserverEntryWithTypedTarget<
+  T extends Element
+> = IntersectionObserverEntry & {
+  readonly target: T;
+};
+
+export function fromIntersection<T extends Element>(
+  domElement: T,
   options?: IntersectionObserverInit
-): Observable<IntersectionObserverEntry> {
-  if (typeof globalThis.IntersectionObserver !== "function") {
+): Observable<IntersectionObserverEntryWithTypedTarget<T>> {
+  const globalThat = globalThis || window || self;
+  if (!globalThat) {
     return EMPTY;
   }
-  return new Observable<IntersectionObserverEntry>((subscriber) => {
-    const elementObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        subscriber.next(entry);
-      });
-    }, options);
-    elementObserver.observe(domElement);
-    return () => {
-      elementObserver.unobserve(domElement);
-    };
-  });
+  if (typeof globalThat.IntersectionObserver !== "function") {
+    return EMPTY;
+  }
+  return new Observable<IntersectionObserverEntryWithTypedTarget<T>>(
+    (subscriber) => {
+      const elementObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          subscriber.next(entry as IntersectionObserverEntryWithTypedTarget<T>);
+        });
+      }, options);
+      elementObserver.observe(domElement);
+      return () => {
+        elementObserver.unobserve(domElement);
+      };
+    }
+  );
 }

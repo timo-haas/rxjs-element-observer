@@ -29,17 +29,27 @@ export declare class ResizeObserver {
   disconnect(): void;
 }
 
-export function fromResize(
-  domElement: Element,
+export type ResizeObserverEntryWithTypedTarget<
+  T extends Element
+> = ResizeObserverEntry & {
+  readonly target: T;
+};
+
+export function fromResize<T extends Element>(
+  domElement: T,
   options?: ResizeObserverOptions
-): Observable<ResizeObserverEntry> {
-  if (typeof (globalThis as any).ResizeObserver !== "function") {
+): Observable<ResizeObserverEntryWithTypedTarget<T>> {
+  const globalThat = globalThis || window || self;
+  if (!globalThat) {
     return EMPTY;
   }
-  return new Observable<ResizeObserverEntry>((subscriber) => {
+  if (typeof (globalThat as any).ResizeObserver !== "function") {
+    return EMPTY;
+  }
+  return new Observable<ResizeObserverEntryWithTypedTarget<T>>((subscriber) => {
     const elementObserver = new ResizeObserver((entries) => {
       entries.forEach((entry) => {
-        subscriber.next(entry);
+        subscriber.next(entry as ResizeObserverEntryWithTypedTarget<T>);
       });
     });
     elementObserver.observe(domElement, options);
