@@ -3,7 +3,11 @@ import { EMPTY, Observable } from "rxjs";
 export function fromMutation(
   domElement: Element
 ): Observable<MutationRecord[]> {
-  if (typeof globalThis.MutationObserver !== "function") {
+  const globalThat = globalThis || window || self;
+  if (!globalThat) {
+    return EMPTY;
+  }
+  if (typeof globalThat.MutationObserver !== "function") {
     return EMPTY;
   }
   return new Observable<MutationRecord[]>((subscriber) => {
