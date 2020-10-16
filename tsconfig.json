@@ -16,9 +16,13 @@
     ],
     "target": "esnext",
     "baseUrl": ".",
+    "rootDir": "./src",
     "paths": {
       "rxjs": [
         "./node_modules/rxjs/*"
+      ],
+      ".rxjs-element-observer": [
+        "./dist"
       ]
     }
   }

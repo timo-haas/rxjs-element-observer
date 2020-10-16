@@ -1,17 +1,25 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "module": "CommonJS",
     "target": "ES6",
     "declaration": false,
-    "outDir": "./dist/test",
+    "outDir": "./specbuild",
     "types": [
-      "jasmine"
-    ]
+      "jasmine", "node"
+    ],
+    "rootDir": "./spec",
+    "paths": {
+      "rxjs": [
+        "./node_modules/rxjs/*"
+      ],
+      "rxjs-element-observer": [
+        "./dist"
+      ]
+    }
   },
   "include": [
-    "**/*.spec.ts",
-    "**/*.d.ts"
+    "./**/*.spec.ts"
   ],
   "exclude": []
 }
