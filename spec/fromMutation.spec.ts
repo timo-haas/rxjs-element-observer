@@ -1,24 +1,27 @@
 import { fromMutation } from '.rxjs-element-observer';
+import { Subscription } from 'rxjs';
+
 describe('fromMutation', () => {
-    it('should work', (done) => {
-        const testElement = document.createElement('div');
+    let testElement: HTMLDivElement;
+    let subscription: Subscription;
+
+    beforeEach(() => {
+        testElement = document.createElement('div');
         document.body.appendChild(testElement);
-        fromMutation(testElement, { attributes: true }).subscribe((records) => {
-            const firstRecord = records[0];
-            expect(firstRecord).toBeDefined();
-            const {
-                type,
-                target,
-                addedNodes,
-                removedNodes,
-                previousSibling,
-                nextSibling,
-                attributeName,
-                attributeNamespace,
-                oldValue,
-            } = firstRecord;
-            expect(type).toBe('attributes');
-            expect(attributeName).toBe('id');
+    });
+    afterEach(() => {
+        subscription.unsubscribe();
+        document.body.removeChild(testElement);
+    });
+
+    it('should trigger attribute id mutation', (done) => {
+        subscription = fromMutation(testElement, {
+            attributes: true,
+        }).subscribe((records) => {
+            const record = records[0];
+            expect(record).toBeDefined();
+            expect(record.type).toBe('attributes');
+            expect(record.attributeName).toBe('id');
             done();
         });
         testElement.id = 'testId';
