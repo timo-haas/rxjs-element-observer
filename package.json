@@ -28,7 +28,8 @@
   "homepage": "https://github.com/timo-haas/rxjs-element-observer",
   "scripts": {
     "compile": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.esm5.json ./tsconfig.types.json",
-    "test": "node node_modules/karma/bin/karma start karma.conf.js"
+    "test": "node node_modules/karma/bin/karma start karma.conf.js",
+    "test:ci": "node node_modules/karma/bin/karma start karma.conf.js --single-run"
   },
   "peerDependencies": {
     "rxjs": "^6.0.0"

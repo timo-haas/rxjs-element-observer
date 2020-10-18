@@ -12,7 +12,7 @@ module.exports = function (config) {
         preprocessors: {
             '**/*.spec.ts': 'karma-typescript',
         },
-        browsers: ['Chrome'],
+        browsers: ['ChromeHeadless'],
         reporters: ['spec'],
         port: 9876,
         colors: true,
